@@ -1,0 +1,10 @@
+[default]
+name=Default
+runtime=host
+config-opts=
+run-opts=
+prefix=/home/anis/.cache/gnome-builder/install/api_consumer/host
+app-id=
+postbuild=
+prebuild=
+default=true
