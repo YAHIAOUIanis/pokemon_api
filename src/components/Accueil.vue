@@ -1,74 +1,153 @@
 <template>
-<div>
-    <div class="table-responsive"> 
-      <sorted-table class="table table-striped w-auto" :values="values">        
-        <thead class="thead-dark">
-          <th scope="col">
-            <sort-link name="id"> # </sort-link>
+  <div id="index">
+    <sorted-table :values="values">
+      <thead>
+        <tr>
+          <th scope="col" style="text-align: left; width: 10rem;">
+            <sort-link name="order">ID</sort-link>
           </th>
-          <th scope="col">
+          <th scope="col" style="text-align: left; width: 10rem;">
+            <sort-link name="name">Name</sort-link>
+          </th>
+          <th scope="col" style="text-align: left; width: 10rem;">
+            <sort-link name="types">Types</sort-link>
+          </th>
+          <th scope="col" style="text-align: left; width: 10rem;">
             Photo
-          </th>                        
-          <th scope="col">
-            <sort-link name="name"> Nom </sort-link>
           </th>
-          <th scope="col">
-            Types
-          </th>
-        </thead>
-        <template>
+        </tr>
+      </thead>
+      <template #body="sort">
         <tbody>
-              <tr v-for="(pokemon, index) in pokemons" :key="index">
-                <td> {{pokemon.id + 1}} </td>  
-                <td>
-                  <img class="img-fluid w-5 mx-autos" :src="`${pokemon.sprites.front_default}`" alt="">
-                </td>          
-                  
-                <td>
-                  <router-link class="link" :to="`/pokemon/${pokemon.id + 1}`">
-                    {{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}}
-                  </router-link>  
-                </td>
-                <td>                
-                  <ul :key="i" v-for="(element , i) in pokemon.abilities"> 
-                    <li>{{ element.ability.name }}</li>
-                  </ul>
-                </td>                      
-            </tr>                     
+          <tr v-for="value in sort.values" :key="value.id">
+            <td>{{ value.order }}</td>
+            <td>{{ value.name.charAt(0).toUpperCase() + value.name.slice(1) }}</td>
+            <td>                
+              <ul :key="i" v-for="(element , i) in value.abilities"> 
+                <li>{{ element.ability.name }}</li>
+              </ul>
+            </td>              
+            <td>
+              <img :src="`${value.sprites.front_default}`">
+            </td>
+          </tr>
         </tbody>
-        </template>
-      </sorted-table>     
+      </template>
+    </sorted-table>
   </div>
-</div>
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
-  name: 'Accueil',  
-  data(){
+  name: "index",
+  data: function() {
     return {
-      values: [],
+      values: [
+        {
+          "abilities": [
+              {
+                "ability": {
+                  "name": "overgrow",
+                  "url": "https://pokeapi.co/api/v2/ability/65/"
+                },
+                "is_hidden": false,
+                "slot": 1
+              },
+              {
+                "ability": {
+                  "name": "chlorophyll",
+                  "url": "https://pokeapi.co/api/v2/ability/34/"
+                },
+                "is_hidden": true,
+                "slot": 3
+              }
+            ],
+            "name": "bulbasaur",
+            "order": 1,
+            "sprites": {
+              "back_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png",
+              "back_female": null,
+              "back_shiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/1.png",
+              "back_shiny_female": null,
+              "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
+              "front_female": null,
+              "front_shiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/1.png",
+              "front_shiny_female": null,
+            },
+            "types": [
+              {
+                "slot": 1,
+                "type": {
+                  "name": "grass",
+                  "url": "https://pokeapi.co/api/v2/type/12/"
+                }
+              },
+              {
+                "slot": 2,
+                "type": {
+                  "name": "poison",
+                  "url": "https://pokeapi.co/api/v2/type/4/"
+                }
+              }
+            ],
+            "weight": 69,
+            "height": 7
+        },
+        {
+          "abilities": [
+              {
+                "ability": {
+                  "name": "overgrow",
+                  "url": "https://pokeapi.co/api/v2/ability/65/"
+                },
+                "is_hidden": false,
+                "slot": 1
+              },
+              {
+                "ability": {
+                  "name": "chlorophyll",
+                  "url": "https://pokeapi.co/api/v2/ability/34/"
+                },
+                "is_hidden": true,
+                "slot": 3
+              },
+            ],
+            "name": "ivysaur",
+            "order": 2,
+            "sprites": {
+              "back_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/2.png",
+              "back_female": null,
+              "back_shiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/2.png",
+              "back_shiny_female": null,
+              "front_default": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png",
+              "front_female": null,
+              "front_shiny": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/2.png",
+              "front_shiny_female": null,
+            },
+            "types": [
+              {
+                "slot": 1,
+                "type": {
+                  "name": "grass",
+                  "url": "https://pokeapi.co/api/v2/type/12/"
+                }
+              },
+              {
+                "slot": 2,
+                "type": {
+                  "name": "poison",
+                  "url": "https://pokeapi.co/api/v2/type/4/"
+                }
+              }
+            ],
+            "weight": 130,
+            "height": 10
+          }
+      ],
       pokemons: null,
       loading: true,
       errored: false
     } 
-  },
-  async mounted(){
-    let pokemons = []
-    for (var i=0; i<20; i++){
-      let url = 'https://pokeapi.co/api/v2/pokemon/' + (i+1);      
-      await axios.get(url).then((response) => {        
-        response.data.id = i;
-        pokemons[i] = response.data;        
-      }).catch(function (error) {        
-        console.log(error);        
-      }).finally(() => this.loading = false);      
-    }
-    this.pokemons = pokemons;
-    this.values = pokemons;
-    console.log(this.values);
   }
 }
 </script>
