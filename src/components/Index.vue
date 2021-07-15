@@ -26,12 +26,12 @@
             <td>{{ value.id }}</td>
             <td>
               <router-link class="link" :to="`/pokemon/${value.id}`">
-                {{ value.name.charAt(0).toUpperCase() + value.name.slice(1) }}
+                {{ value.name | capitalize }}
               </router-link>
             </td>
             <td>                
               <ul :key="i" v-for="(element , i) in value.abilities"> 
-                <li>{{ element.ability.name }}</li>
+                <li>{{ element.ability.name | capitalize }}</li>
               </ul>
             </td>              
             <td>
@@ -51,13 +51,14 @@ export default {
   name: "index",
   data: function() {
     return {
-      values: null,      
+      values: [],      
       loading: true,
-      errored: false
+      errored: false,
+      search: ''
     }  
   },
   async mounted(){
-    let values = []
+    let values = [];
     for (var i=0; i<20; i++){
       let url = 'https://pokeapi.co/api/v2/pokemon/' + (i+1);      
       await axios.get(url).then((response) => {        
@@ -68,6 +69,13 @@ export default {
     }    
     this.values = values;
     console.log(this.values);
+  },
+  filters: {
+    capitalize: function (value) {
+      if (!value) return ''
+      value = value.toString()
+      return value.charAt(0).toUpperCase() + value.slice(1)
+    }
   }
 }
 </script>
