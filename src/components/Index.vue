@@ -1,8 +1,5 @@
 <template>
   <div id="index">
-
-    <input v-model="search" class="form-control" placeholder="Filter pokemons by id or name">
-
     <sorted-table :values="values">
       <thead>
         <tr>
